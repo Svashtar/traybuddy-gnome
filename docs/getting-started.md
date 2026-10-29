@@ -38,7 +38,7 @@ Under **New Icons**, choose whether icons TrayBuddy hasn't seen before start as 
 
 ## 4. Change the order
 
-Drag an icon by its handle (⋮⋮) and drop it above or below another one. The list is in top-bar order, left to right: collapsible icons appear in the pill in this order, shown icons to the right of the arrow in this order.
+Drag an icon by its handle (⋮⋮) and drop it above or below another one. The list is in top-bar order, left to right: collapsible icons appear in the pill in this order, shown icons next to the arrow in this order.
 
 ## 5. Using the arrow
 
@@ -55,6 +55,7 @@ On the **Behaviour** page:
 | Collapse Automatically | On | Turn off to keep the drawer open until you click the arrow again. |
 | Collapse After | 5 seconds | How long without use before the drawer closes (1–120 seconds). |
 | Open on Hover | Off | Open the drawer when the pointer rests on the arrow for a moment. |
+| Arrow Position | Right of Shown Icons | *Right of Shown Icons* puts the arrow and its drawer next to the system menu, after your shown icons. *Left of Shown Icons* puts them before. Either way the arrow stays put and the drawer opens to its left. |
 | Background | Subtle | The pill behind revealed icons: *None*, *Subtle* or *Accent Colour* (follows your GNOME accent colour). |
 
 Animations follow GNOME's own **Animations** setting (Settings → Accessibility). With animations off, the drawer opens and closes instantly.

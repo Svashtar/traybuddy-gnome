@@ -25,6 +25,7 @@ const VALUES = {
     'collapse-delay': 5,
     'open-on-hover': false,
     'pill-style': 'subtle',
+    'arrow-position': 'right',
 };
 
 test('backup round-trip keeps every value', () => {
@@ -37,12 +38,13 @@ test('backup rejects foreign and invalid files', () => {
     assertThrows(() => parseBackup('{"format":"traybuddy-settings","version":99}'), /newer/);
     assertThrows(() => parseBackup('{"format":"traybuddy-settings","version":1,"states":{"a":"gone"}}'), /states/);
     assertThrows(() => parseBackup('{"format":"traybuddy-settings","version":1,"collapseDelay":0}'), /collapseDelay/);
+    assertThrows(() => parseBackup('{"format":"traybuddy-settings","version":1,"arrowPosition":"top"}'), /arrowPosition/);
 });
 
 test('debug info counts app icons without naming them', () => {
     const text = formatDebugInfo({
         extensionVersion: '0.1.0', shellVersion: '51.1', gjsVersion: '1.88.1', os: 'CachyOS', sessionType: 'wayland',
-        settings: {autoCollapse: true, collapseDelay: 5, openOnHover: false, pillStyle: 'subtle', defaultState: 'shown'},
+        settings: {autoCollapse: true, collapseDelay: 5, openOnHover: false, pillStyle: 'subtle', arrowPosition: 'right', defaultState: 'shown'},
         extensions: {appIndicator: true, dashToPanel: false},
         items: [
             {key: 'app:discord', state: 'collapsible', present: true},

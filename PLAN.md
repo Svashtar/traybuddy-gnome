@@ -44,6 +44,7 @@ The goal:
 | `collapse-delay` | `u` 1–120 s | 5 | prefs |
 | `open-on-hover` | `b` | false | prefs |
 | `pill-style` | enum none/subtle/accent | subtle | prefs |
+| `arrow-position` | enum left/right | right | prefs |
 
 ## Steps
 1. ✅ Scaffold repo with LightsBuddy conventions (Makefile, lint, CI, harness, docs, templates)

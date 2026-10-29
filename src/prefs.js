@@ -73,6 +73,7 @@ export default class TrayBuddyPreferences extends ExtensionPreferences {
                 collapseDelay: settings.get_uint('collapse-delay'),
                 openOnHover: settings.get_boolean('open-on-hover'),
                 pillStyle: settings.get_string('pill-style'),
+                arrowPosition: settings.get_string('arrow-position'),
                 defaultState,
             },
             extensions: {

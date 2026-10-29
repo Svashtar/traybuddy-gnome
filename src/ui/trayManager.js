@@ -36,7 +36,11 @@ function iconString(actor) {
 
 // Places every managed indicator in the right part of the top bar:
 //
-//   [vault (hidden)] [drawer: collapsible…] [arrow] [shown…] [system…]
+//   arrow on the right: [shown…] [vault (hidden)] [drawer: collapsible…] [arrow] [system…]
+//   arrow on the left:  [vault (hidden)] [drawer: collapsible…] [arrow] [shown…] [system…]
+//
+// The drawer always sits just left of the arrow, and the right box is
+// end-aligned, so opening it grows leftwards and the arrow never moves.
 //
 // Indicators are never re-created or restyled, only moved between these
 // boxes, and disable() puts them all back in the panel.
@@ -85,6 +89,7 @@ export class TrayManager {
             'changed::item-order', () => this._queueArrange(),
             'changed::item-states', () => this._queueArrange(),
             'changed::default-state', () => this._queueArrange(),
+            'changed::arrow-position', () => this._queueArrange(),
             'changed::pill-style', () => this._drawer.setPillStyle(settings.get_string('pill-style')),
             'changed::auto-collapse', () => this._restartTimer(),
             'changed::collapse-delay', () => this._restartTimer(),
@@ -239,7 +244,7 @@ export class TrayManager {
 
         // Each icon goes right after the previous one (or first in its box),
         // so foreign children and moves within a box can't shift the target.
-        const place = (keys, box, first) => {
+        const place = (keys, box, first, before = null) => {
             let anchor = first;
             for (const key of keys) {
                 const {container} = byKey.get(key);
@@ -253,13 +258,16 @@ export class TrayManager {
                 if (anchor)
                     box.set_child_above_sibling(container, anchor);
                 else
-                    box.set_child_below_sibling(container, null);
+                    box.set_child_below_sibling(container, before);
                 anchor = container;
             }
         };
         place(plan.never, this._vault, null);
         place(plan.collapsible, this._drawer, null);
-        place(plan.shown, this._box, this._button.container);
+        if (this._settings.get_string('arrow-position') === 'left')
+            place(plan.shown, this._box, this._button.container);
+        else
+            place(plan.shown, this._box, null, this._vault);
         this._arranging = false;
 
         const present = new Set(items.map(i => i.indicator));

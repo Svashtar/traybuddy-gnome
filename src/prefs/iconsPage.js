@@ -80,7 +80,7 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         newGroup.add(defaultRow);
         this.add(newGroup);
 
-        const ids = ['known-items', 'item-order', 'item-states'].map(key =>
+        const ids = ['known-items', 'item-order', 'item-states', 'arrow-position'].map(key =>
             settings.connect(`changed::${key}`, () => this.refresh()));
         ids.push(settings.connect('changed::default-state', () => {
             syncDefault();
@@ -137,21 +137,25 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         const collapsible = items.filter(i => i.present && i.state === 'collapsible');
         const shown = items.filter(i => i.present && i.state === 'shown');
 
+        const group = new Gtk.Box({spacing: 4, margin_start: 6, margin_end: 6});
         if (collapsible.length) {
             const pill = new Gtk.Box({spacing: 10, css_classes: ['traybuddy-preview-pill']});
             collapsible.forEach(i => pill.append(image(i)));
-            this._preview.append(pill);
-            this._preview.append(new Gtk.Image({
+            group.append(pill);
+            group.append(new Gtk.Image({
                 icon_name: 'traybuddy-chevron-symbolic',
-                pixel_size: 14,
+                pixel_size: 16,
                 css_classes: ['traybuddy-preview-chevron'],
             }));
         }
-        const rest = new Gtk.Box({spacing: 10, margin_start: 6});
+        const rest = new Gtk.Box({spacing: 10});
         shown.forEach(i => rest.append(image(i)));
-        rest.append(new Gtk.Image({icon_name: 'system-shutdown-symbolic', pixel_size: 16, css_classes: ['dim-label'],
-                                   tooltip_text: _('System menu')}));
-        this._preview.append(rest);
+        const system = new Gtk.Image({icon_name: 'system-shutdown-symbolic', pixel_size: 16, margin_start: 6,
+                                      css_classes: ['dim-label'], tooltip_text: _('System menu')});
+
+        const right = this._settings.get_string('arrow-position') !== 'left';
+        for (const box of right ? [rest, group, system] : [group, rest, system])
+            this._preview.append(box);
     }
 
     _row(item, items) {

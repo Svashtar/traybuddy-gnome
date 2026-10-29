@@ -11,7 +11,7 @@
 import {APP_PREFIX} from './items.js';
 
 // info: {extensionVersion, commit?, shellVersion, gjsVersion, os, sessionType,
-//        settings: {autoCollapse, collapseDelay, openOnHover, pillStyle, defaultState},
+//        settings: {autoCollapse, collapseDelay, openOnHover, pillStyle, arrowPosition, defaultState},
 //        extensions: {appIndicator, dashToPanel},
 //        items: [{key, state, present}]}
 export function formatDebugInfo(info) {
@@ -25,6 +25,7 @@ export function formatDebugInfo(info) {
         `Auto-collapse: ${s.autoCollapse ? `after ${s.collapseDelay} s` : 'off'}`,
         `Open on hover: ${s.openOnHover ? 'on' : 'off'}`,
         `Background: ${s.pillStyle}`,
+        `Arrow: ${s.arrowPosition}`,
         `New icons: ${s.defaultState}`,
         `AppIndicator extension: ${info.extensions.appIndicator ? 'enabled' : 'not enabled'}`,
         `Dash to Panel: ${info.extensions.dashToPanel ? 'enabled' : 'not enabled'}`,

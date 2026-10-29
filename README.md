@@ -36,6 +36,7 @@ You also choose the order, by dragging icons in the settings.
 - **Auto-collapse** after a number of seconds you choose (1–120). The timer waits while the pointer is on the icons or one of their menus is open, so the drawer never closes under you.
 - **Open on hover** (optional) and **Keep Open** from the arrow's right-click menu.
 - **Pill background:** none, subtle, or your accent colour.
+- **Arrow position:** next to the system menu (after your shown icons) or before them.
 - **Works with app tray icons** (Discord, Steam, Nextcloud…, through the AppIndicator extension) **and with icons from other extensions.** System menus and the screen recording and sharing indicators are never touched.
 - **Remembers icons of apps that aren't running**, so you can set them up before you start the app, or forget them.
 - **Works with Dash to Panel.**

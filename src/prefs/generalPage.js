@@ -12,6 +12,7 @@ import Gtk from 'gi://Gtk';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const PILL_STYLES = ['none', 'subtle', 'accent'];
+const ARROW_POSITIONS = ['right', 'left'];
 
 export const GeneralPage = GObject.registerClass(
 class TrayBuddyGeneralPage extends Adw.PreferencesPage {
@@ -58,11 +59,26 @@ class TrayBuddyGeneralPage extends Adw.PreferencesPage {
         };
         syncPill();
         pill.connect('notify::selected', () => settings.set_string('pill-style', PILL_STYLES[pill.selected]));
-        const id = settings.connect('changed::pill-style', syncPill);
+        const arrow = new Adw.ComboRow({
+            title: _('Arrow Position'),
+            subtitle: _('Next to the system menu, or before the shown icons'),
+            model: Gtk.StringList.new([_('Right of Shown Icons'), _('Left of Shown Icons')]),
+        });
+        const syncArrow = () => {
+            arrow.selected = Math.max(0, ARROW_POSITIONS.indexOf(settings.get_string('arrow-position')));
+        };
+        syncArrow();
+        arrow.connect('notify::selected', () => settings.set_string('arrow-position', ARROW_POSITIONS[arrow.selected]));
+
+        const ids = [
+            settings.connect('changed::pill-style', syncPill),
+            settings.connect('changed::arrow-position', syncArrow),
+        ];
         window.connect('close-request', () => {
-            settings.disconnect(id);
+            ids.forEach(id => settings.disconnect(id));
             return false;
         });
+        look.add(arrow);
         look.add(pill);
         this.add(look);
     }

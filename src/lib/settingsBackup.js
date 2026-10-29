@@ -34,6 +34,7 @@ const FIELDS = [
     ['collapse-delay', 'collapseDelay', v => Number.isInteger(v) && v >= 1 && v <= 120],
     ['open-on-hover', 'openOnHover', v => typeof v === 'boolean'],
     ['pill-style', 'pillStyle', v => ['none', 'subtle', 'accent'].includes(v)],
+    ['arrow-position', 'arrowPosition', v => v === 'left' || v === 'right'],
 ];
 
 // values: {gsettingsKey: value}

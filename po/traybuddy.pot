@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TrayBuddy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 11:20+0100\n"
+"POT-Creation-Date: 2026-10-29 11:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,83 +105,99 @@ msgid ""
 "to the top bar."
 msgstr ""
 
-#: src/prefs/iconsPage.js:153
+#: src/prefs/iconsPage.js:154
 msgid "System menu"
 msgstr ""
 
-#: src/prefs/iconsPage.js:161
+#: src/prefs/iconsPage.js:165
 msgid "Not running"
 msgstr ""
 
-#: src/prefs/iconsPage.js:177
+#: src/prefs/iconsPage.js:181
 msgid "Forget this icon"
 msgstr ""
 
-#: src/prefs/generalPage.js:19
+#: src/prefs/generalPage.js:20
 msgid "Behaviour"
 msgstr ""
 
-#: src/prefs/generalPage.js:22
+#: src/prefs/generalPage.js:23
 msgid "Collapsing"
 msgstr ""
 
-#: src/prefs/generalPage.js:23
+#: src/prefs/generalPage.js:24
 msgid ""
 "Collapsible icons tuck away again once you stop using them. The timer pauses "
 "while the pointer is on them or one of their menus is open."
 msgstr ""
 
-#: src/prefs/generalPage.js:25
+#: src/prefs/generalPage.js:26
 msgid "Collapse Automatically"
 msgstr ""
 
-#: src/prefs/generalPage.js:28
+#: src/prefs/generalPage.js:29
 msgid "Collapse After"
 msgstr ""
 
-#: src/prefs/generalPage.js:29
+#: src/prefs/generalPage.js:30
 msgid "Seconds without use"
 msgstr ""
 
-#: src/prefs/generalPage.js:39
+#: src/prefs/generalPage.js:40
 msgid "Opening"
 msgstr ""
 
-#: src/prefs/generalPage.js:40
+#: src/prefs/generalPage.js:41
 msgid ""
 "Click the arrow to open or close. Right-click it for Keep Open and Settings."
 msgstr ""
 
-#: src/prefs/generalPage.js:43
+#: src/prefs/generalPage.js:44
 msgid "Open on Hover"
 msgstr ""
 
-#: src/prefs/generalPage.js:44
+#: src/prefs/generalPage.js:45
 msgid "Open when the pointer rests on the arrow"
 msgstr ""
 
-#: src/prefs/generalPage.js:50
+#: src/prefs/generalPage.js:51
 msgid "Appearance"
 msgstr ""
 
-#: src/prefs/generalPage.js:52
+#: src/prefs/generalPage.js:53
 msgid "Background"
 msgstr ""
 
-#: src/prefs/generalPage.js:53
+#: src/prefs/generalPage.js:54
 msgid "Behind the revealed icons"
 msgstr ""
 
-#: src/prefs/generalPage.js:54
+#: src/prefs/generalPage.js:55
 msgid "None"
 msgstr ""
 
-#: src/prefs/generalPage.js:54
+#: src/prefs/generalPage.js:55
 msgid "Subtle"
 msgstr ""
 
-#: src/prefs/generalPage.js:54
+#: src/prefs/generalPage.js:55
 msgid "Accent Colour"
+msgstr ""
+
+#: src/prefs/generalPage.js:63
+msgid "Arrow Position"
+msgstr ""
+
+#: src/prefs/generalPage.js:64
+msgid "Next to the system menu, or before the shown icons"
+msgstr ""
+
+#: src/prefs/generalPage.js:65
+msgid "Right of Shown Icons"
+msgstr ""
+
+#: src/prefs/generalPage.js:65
+msgid "Left of Shown Icons"
 msgstr ""
 
 #: src/prefs/aboutPage.js:36

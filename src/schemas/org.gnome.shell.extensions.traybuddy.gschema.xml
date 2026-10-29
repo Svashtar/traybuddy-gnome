@@ -4,6 +4,10 @@
     <value nick="shown" value="0"/>
     <value nick="collapsible" value="1"/>
   </enum>
+  <enum id="org.gnome.shell.extensions.traybuddy.arrow-position">
+    <value nick="left" value="0"/>
+    <value nick="right" value="1"/>
+  </enum>
   <enum id="org.gnome.shell.extensions.traybuddy.pill-style">
     <value nick="none" value="0"/>
     <value nick="subtle" value="1"/>
@@ -42,6 +46,11 @@
     <key name="open-on-hover" type="b">
       <default>false</default>
       <summary>Open when the pointer rests on the arrow</summary>
+    </key>
+    <key name="arrow-position" enum="org.gnome.shell.extensions.traybuddy.arrow-position">
+      <default>'right'</default>
+      <summary>Where the arrow sits</summary>
+      <description>"right": after the shown icons, next to the system menu. "left": before them.</description>
     </key>
     <key name="pill-style" enum="org.gnome.shell.extensions.traybuddy.pill-style">
       <default>'subtle'</default>

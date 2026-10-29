@@ -33,10 +33,13 @@ src/schemas/               org.gnome.shell.extensions.traybuddy.gschema.xml
 Every indicator in GNOME Shell is a `PanelMenu.Button` wrapped in a `container` (`St.Bin`) that sits in one of the panel's boxes; `Main.panel.statusArea[role]` points at the button. TrayBuddy adds its arrow to the right box and puts two boxes of its own next to it:
 
 ```
-right box:  [vault (always hidden)] [drawer: collapsible…] [arrow] [shown…] [rest of the panel…]
+arrow right (default):  [shown…] [vault (always hidden)] [drawer: collapsible…] [arrow] [rest of the panel…]
+arrow left:             [vault (always hidden)] [drawer: collapsible…] [arrow] [shown…] [rest of the panel…]
 ```
 
-- **Shown** icons stay direct children of the right box, right after the arrow, in the user's order. Theme rules such as `#panel .panel-button` keep applying because they are descendant selectors.
+The right box is end-aligned and the drawer always sits just left of the arrow, so opening it grows leftwards and the arrow itself never moves.
+
+- **Shown** icons stay direct children of the right box, before the vault or after the arrow (`arrow-position`), in the user's order. Theme rules such as `#panel .panel-button` keep applying because they are descendant selectors.
 - **Collapsible** icons move into the drawer.
 - **Hidden** icons move into the vault, a hidden `St.Widget`. Hiding the parent instead of the icon means apps and extensions can keep toggling their own icon's visibility without it reappearing.
 
