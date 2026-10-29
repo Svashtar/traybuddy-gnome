@@ -106,13 +106,39 @@ export function mergeKnown(known, present) {
 }
 
 // Drops an icon from every setting, for "Forget" in preferences.
-export function forgetKey(key, {known, order, states}) {
+export function forgetKey(key, {known, order, states, names = {}}) {
     const rest = {...states};
     delete rest[key];
+    const restNames = {...names};
+    delete restNames[key];
     return {
         known: known.filter(item => item.key !== key),
         order: order.filter(k => k !== key),
         states: rest,
+        names: restNames,
+    };
+}
+
+// Moves everything saved under `from` to `to`, for icons that used to be keyed
+// by their name and are now keyed by their app. Does nothing once `to` is set
+// up, so it is safe to run on every arrange; returns `saved` itself when
+// nothing changes.
+export function renameKey(from, to, saved) {
+    const {known, order, states, names = {}} = saved;
+    if (from === to || known.some(item => item.key === to) || !known.some(item => item.key === from))
+        return saved;
+    const move = map => {
+        if (!(from in map))
+            return map;
+        const {[from]: value, ...rest} = map;
+        return {...rest, [to]: value};
+    };
+    return {
+        ...saved,
+        known: known.map(item => (item.key === from ? {...item, key: to} : item)),
+        order: order.map(k => (k === from ? to : k)),
+        states: move(states),
+        names: move(names),
     };
 }
 

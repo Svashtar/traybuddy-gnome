@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TrayBuddy\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 11:44+0100\n"
+"POT-Creation-Date: 2026-10-29 16:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: src/ui/trayButton.js:33 src/prefs/aboutPage.js:81
 msgid "TrayBuddy"
@@ -37,84 +38,116 @@ msgstr ""
 msgid "Show tucked-away icons"
 msgstr ""
 
-#: src/prefs/iconsPage.js:32 src/prefs/iconsPage.js:71
+#: src/prefs/iconsPage.js:36 src/prefs/iconsPage.js:87
 msgid "Shown"
 msgstr ""
 
-#: src/prefs/iconsPage.js:32
+#: src/prefs/iconsPage.js:36
 msgid "Always in the top bar"
 msgstr ""
 
-#: src/prefs/iconsPage.js:33 src/prefs/iconsPage.js:71
+#: src/prefs/iconsPage.js:37 src/prefs/iconsPage.js:87
 msgid "Collapsible"
 msgstr ""
 
-#: src/prefs/iconsPage.js:33
+#: src/prefs/iconsPage.js:37
 msgid "Behind the arrow until you open it"
 msgstr ""
 
-#: src/prefs/iconsPage.js:34
+#: src/prefs/iconsPage.js:38
 msgid "Hidden"
 msgstr ""
 
-#: src/prefs/iconsPage.js:34
+#: src/prefs/iconsPage.js:38
 msgid "Never shown"
 msgstr ""
 
-#: src/prefs/iconsPage.js:41
+#: src/prefs/iconsPage.js:47
 msgid "Icons"
 msgstr ""
 
-#: src/prefs/iconsPage.js:46
+#: src/prefs/iconsPage.js:52
 msgid "Preview"
 msgstr ""
 
-#: src/prefs/iconsPage.js:47
+#: src/prefs/iconsPage.js:53
 msgid "How the right side of the top bar looks with the arrow open."
 msgstr ""
 
-#: src/prefs/iconsPage.js:61
-msgid "Top Bar Icons"
-msgstr ""
-
-#: src/prefs/iconsPage.js:62
+#: src/prefs/iconsPage.js:74
 msgid ""
-"Choose where each icon goes. Drag the handle to reorder: icons appear left "
-"to right in this order."
+"Always in the top bar. Drag the handle to reorder or to move an icon to "
+"another group."
 msgstr ""
 
-#: src/prefs/iconsPage.js:67
+#: src/prefs/iconsPage.js:79
+msgid "Not Running"
+msgstr ""
+
+#: src/prefs/iconsPage.js:83
 msgid "New Icons"
 msgstr ""
 
-#: src/prefs/iconsPage.js:69
+#: src/prefs/iconsPage.js:85
 msgid "New Icons Are"
 msgstr ""
 
-#: src/prefs/iconsPage.js:70
+#: src/prefs/iconsPage.js:86
 msgid "For icons TrayBuddy hasn’t seen before"
 msgstr ""
 
-#: src/prefs/iconsPage.js:122
+#: src/prefs/iconsPage.js:148
+#, javascript-format
+msgid "%d icon, kept for when its app starts"
+msgid_plural "%d icons, kept for when their apps start"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/prefs/iconsPage.js:154
 msgid "No icons yet"
 msgstr ""
 
-#: src/prefs/iconsPage.js:123
+#: src/prefs/iconsPage.js:155
 msgid ""
 "Icons appear here once TrayBuddy is enabled and an app or extension adds one "
 "to the top bar."
 msgstr ""
 
-#: src/prefs/iconsPage.js:154
+#: src/prefs/iconsPage.js:188
 msgid "System menu"
 msgstr ""
 
-#: src/prefs/iconsPage.js:165
-msgid "Not running"
+#: src/prefs/iconsPage.js:236
+msgid "Rename…"
 msgstr ""
 
-#: src/prefs/iconsPage.js:181
-msgid "Forget this icon"
+#: src/prefs/iconsPage.js:239
+msgid "Forget"
+msgstr ""
+
+#: src/prefs/iconsPage.js:242
+msgid "More"
+msgstr ""
+
+#: src/prefs/iconsPage.js:251
+msgid "Drag icons here"
+msgstr ""
+
+#: src/prefs/iconsPage.js:290
+msgid "Rename Icon"
+msgstr ""
+
+#: src/prefs/iconsPage.js:291
+msgid ""
+"The name used in these settings. Leave it empty to use the app’s own name."
+msgstr ""
+
+#: src/prefs/iconsPage.js:296 src/prefs/aboutPage.js:262
+msgid "Cancel"
+msgstr ""
+
+#: src/prefs/iconsPage.js:297
+msgid "Rename"
 msgstr ""
 
 #: src/prefs/generalPage.js:20
@@ -339,10 +372,6 @@ msgstr ""
 
 #: src/prefs/aboutPage.js:260
 msgid "Icon states, order and behaviour settings go back to their defaults."
-msgstr ""
-
-#: src/prefs/aboutPage.js:262
-msgid "Cancel"
 msgstr ""
 
 #: src/prefs/aboutPage.js:263

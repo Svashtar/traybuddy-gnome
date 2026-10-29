@@ -58,11 +58,13 @@ journalctl -b _COMM=gnome-shell -o cat --since -10min   # shell log
 - Indicators are only **moved** between the panel's right box, our drawer and our hidden
   vault. Never re-create, restyle, monkey-patch `addToStatusArea` or change another
   extension's own `visible` state. `disable()` puts every icon back, visible.
-- Icon keys must survive restarts: extension roles as-is, AppIndicator roles by accessible
-  name (`app:<slug>`), see `lib/items.js`.
+- Icon keys must survive restarts: extension roles as-is, AppIndicator roles by the app's
+  desktop id (`app:<slug>`, found by `ui/appResolver.js`), falling back to the accessible name;
+  see `lib/apps.js` and `lib/items.js`.
 - The screen recording/sharing indicators and system menus (`SYSTEM_ROLES`) are never managed.
-- Only the shell writes `known-items`; prefs only writes `item-order`, `item-states` and the
-  behaviour keys (and `known-items` for Forget).
+- Only the shell writes `known-items`; prefs only writes `item-order`, `item-states`,
+  `item-names` and the behaviour keys (and `known-items` for Forget). The shell also rewrites
+  `item-order`/`item-states`/`item-names` once per app when moving old name keys to app keys.
 
 ## extensions.gnome.org rules
 Follow both https://gjs.guide/extensions/review-guidelines/review-guidelines.html and
@@ -88,7 +90,7 @@ https://gjs.guide/extensions/review-guidelines/best-practices.html. The ones tha
 
 ## Code rules
 - `src/lib/` must work in both processes. Pure modules (items, collapseTimer, markdown,
-  settingsBackup, debugInfo) import nothing from GNOME, and every change to them gets a unit test.
+  settingsBackup, debugInfo, apps) import nothing from GNOME, and every change to them gets a unit test.
 - Every user-facing string goes through `_()` / `ngettext()`; run `make pot` afterwards.
   UI copy uses British spelling ("colour", "behaviour"). Keep strings short.
 - `connectObject()` is shell-only; prefs code uses `connect()` and disconnects on `close-request`.

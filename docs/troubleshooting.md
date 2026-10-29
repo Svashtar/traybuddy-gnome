@@ -23,7 +23,9 @@ Some icons hide themselves at times: app icons with nothing to report (for examp
 
 ## An icon shows up twice in the list
 
-Icons are recognised by name. When an app creates two tray icons with the same name, the second one is listed as `name#2`. If an app's name changes (for example after an update), it's listed as a new icon; forget the old entry with the bin button once it shows *Not running*.
+App icons are recognised by the app they belong to, found through its `.desktop` file. When TrayBuddy can't find the app (for example a script started from a terminal), it falls back to the name the icon gives itself, and that name can change between runs. Each new name is listed as a new icon; forget the old entry with **⋯ → Forget** under **Not Running**. When an app creates two tray icons, the second one gets `#2` added to its key.
+
+After updating from a version that recognised every app icon by name, each app's settings move to its new entry the first time its icon appears. Entries left over from apps that renamed their icon stay under **Not Running** until you forget them.
 
 ## Icons jump around or flicker
 

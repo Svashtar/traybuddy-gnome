@@ -14,15 +14,17 @@ src/ui/trayManager.js      finds indicators, places them (shown / drawer / vault
 src/ui/trayButton.js       the arrow: PanelMenu.Button without its own menu, click gesture,
                            Enter/Space, right-click menu (Keep Open, Settings), rotation
 src/ui/drawer.js           St.BoxLayout "pill" holding collapsible icons; open/close animation
+src/ui/appResolver.js      finds the installed app behind each AppIndicator icon (D-Bus PID → cgroup → .desktop)
 src/lib/items.js           pure: icon keys, display names, SYSTEM_ROLES, layout plan, known-items merge,
-                           reorder and forget helpers
+                           reorder, forget and rename-key helpers
+src/lib/apps.js            pure: role → bus name/PID, cgroup → app ids, cmdline → program, app keys
 src/lib/collapseTimer.js   pure: inactivity timer that waits while busy (timers injected)
-src/lib/config.js          GSettings helpers (known-items JSON, item-states dict)
+src/lib/config.js          GSettings helpers (known-items JSON, item-states and item-names dicts)
 src/lib/debugInfo.js       pure: "Copy Debug Info" text (counts app icons, never names them)
 src/lib/settingsBackup.js  pure: settings export/import format
 src/lib/markdown.js        pure: CHANGELOG.md → Pango markup for About → What's New
 src/prefs.js               Adw preferences window; CSS for the preview; debug info
-src/prefs/iconsPage.js     preview, one row per known icon (state toggles, drag to reorder, forget)
+src/prefs/iconsPage.js     preview, a group per state plus Not Running (toggles, drag between groups, rename, forget)
 src/prefs/generalPage.js   "Behaviour": auto-collapse, delay, open on hover, pill style
 src/prefs/aboutPage.js     version, What's New, help links, debug info, backup/import/reset
 src/schemas/               org.gnome.shell.extensions.traybuddy.gschema.xml
@@ -66,7 +68,10 @@ Per indicator, TrayBuddy also watches:
 Settings refer to icons by a key that must survive restarts (`lib/items.js → itemKey()`):
 
 - Extension icons: their role, which is usually the extension's UUID or a fixed name.
-- App icons (`appindicator-:1.102@/org/ayatana/NotificationItem/discord1`): the bus name and often a PID change every time, so the key is `app:` plus a slug of the accessible name (the app's tray title or ID), falling back to the last path segment without trailing digits.
+- App icons (`appindicator-:1.102@/org/ayatana/NotificationItem/discord1`): the bus name and often a PID change every time, and many apps give their icon a D-Bus id or random string as its name. So `ui/appResolver.js` finds the app: `GetConnectionUnixProcessID` on the bus name (or the PID in `legacy:` roles), then the systemd scope in `/proc/<pid>/cgroup` (`app-gnome-com.viber.Viber-123.scope` → `com.viber.Viber.desktop`), then the program in `/proc/<pid>/cmdline` matched against installed apps' `Exec`, then the autostart file named by the scope. The key is `app:` plus a slug of the desktop id (`appKey()`), and the name and icon come from the `.desktop` file.
+- Until the lookup finishes (a D-Bus round trip) the icon waits in the vault, so it never flashes up in the wrong place. When no app is found, the key falls back to `app:` plus a slug of the accessible name, as in earlier versions.
+- Keys from earlier versions are moved to the app key the first time each app is found (`renameKey()`, run on every arrange; it does nothing once the new key exists).
+- Extension icons are named from their metadata (`Main.extensionManager.lookup(role)`), since many put live status in their accessible name.
 - Duplicates get `#2`, `#3`… (`uniqueKeys()`).
 
 ## Layout plan

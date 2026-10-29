@@ -9,9 +9,11 @@ import St from 'gi://St';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
+import {appKey} from '../lib/apps.js';
 import {CollapseTimer} from '../lib/collapseTimer.js';
-import {getConfig, getKnown, setKnown} from '../lib/config.js';
-import {SYSTEM_ROLES, displayName, itemKey, mergeKnown, planLayout, uniqueKeys} from '../lib/items.js';
+import {getConfig, getKnown, getNames, setKnown} from '../lib/config.js';
+import {SYSTEM_ROLES, displayName, itemKey, mergeKnown, planLayout, renameKey, uniqueKeys} from '../lib/items.js';
+import {AppResolver} from './appResolver.js';
 import {Drawer, resetChild} from './drawer.js';
 import {TrayButton} from './trayButton.js';
 
@@ -34,6 +36,12 @@ function iconString(actor) {
     return null;
 }
 
+// Extensions put live status in their accessible name ("QuotaBuddy: Session:
+// 93% left…"), so their own name from metadata reads better.
+function extensionName(role) {
+    return Main.extensionManager.lookup(role)?.metadata.name ?? null;
+}
+
 // Places every managed indicator in the right part of the top bar:
 //
 //   arrow on the right: [shown…] [vault (hidden)] [drawer: collapsible…] [arrow] [system…]
@@ -50,6 +58,7 @@ export class TrayManager {
         this._sources = new Set();
         this._tracked = new Map();
         this._keepOpen = false;
+        this._apps = new AppResolver(() => this._queueArrange());
 
         this._button = new TrayButton({gicon, openPreferences});
         Main.panel.addToStatusArea(ROLE, this._button, 0, 'right');
@@ -103,6 +112,8 @@ export class TrayManager {
             GLib.source_remove(id);
         this._sources.clear();
         this._timer.stop();
+        this._apps.destroy();
+        this._apps = null;
 
         this._settings.disconnectObject(this);
         for (const box of [this._box, this._drawer, this._vault])
@@ -230,14 +241,45 @@ export class TrayManager {
             items.push({role, indicator, container: indicator.container});
         }
         items.sort((a, b) => position.get(a.container) - position.get(b.container));
-        const keys = uniqueKeys(items.map(i => itemKey(i.role, i.indicator.accessible_name)));
-        items.forEach((item, i) => (item.key = keys[i]));
+        this._apps.prune(new Set(items.map(i => i.role)));
+        for (const item of items) {
+            item.app = this._apps.lookup(item.role);
+            item.nameKey = itemKey(item.role, item.indicator.accessible_name);
+        }
+        // Icons still being looked up have no key yet, so they can't take a "#2" from one that has.
+        const ready = items.filter(i => i.app !== undefined);
+        const keys = uniqueKeys(ready.map(i => (i.app ? appKey(i.app.id) : i.nameKey)));
+        ready.forEach((item, i) => (item.key = keys[i]));
         return items;
+    }
+
+    // App icons used to be keyed by their name; carry their settings over to
+    // the app key the first time each one is found.
+    _migrate(items) {
+        const before = {
+            known: getKnown(this._settings),
+            ...getConfig(this._settings),
+            names: getNames(this._settings),
+        };
+        let after = before;
+        for (const item of items.filter(i => i.app))
+            after = renameKey(item.nameKey, item.key, after);
+        if (after === before)
+            return;
+        this._settings.set_strv('item-order', after.order);
+        this._settings.set_value('item-states', new GLib.Variant('a{ss}', after.states));
+        this._settings.set_value('item-names', new GLib.Variant('a{ss}', after.names));
+        setKnown(this._settings, after.known);
     }
 
     _arrange() {
         this._arranging = true;
-        const items = this._collect();
+        const all = this._collect();
+        this._migrate(all);
+        // Until we know which app an icon belongs to we don't know its key, so it
+        // waits out of sight rather than flashing up in the wrong place.
+        const pending = all.filter(i => i.app === undefined);
+        const items = all.filter(i => i.app !== undefined);
         const byKey = new Map(items.map(i => [i.key, i]));
         const {order, states, defaultState} = getConfig(this._settings);
         const plan = planLayout(items.map(i => i.key), order, states, defaultState);
@@ -262,6 +304,12 @@ export class TrayManager {
                 anchor = container;
             }
         };
+        for (const {container} of pending) {
+            if (container.get_parent() !== this._vault) {
+                container.get_parent().remove_child(container);
+                this._vault.add_child(container);
+            }
+        }
         place(plan.never, this._vault, null);
         place(plan.collapsible, this._drawer, null);
         if (this._settings.get_string('arrow-position') === 'left')
@@ -270,19 +318,19 @@ export class TrayManager {
             place(plan.shown, this._box, null, this._vault);
         this._arranging = false;
 
-        const present = new Set(items.map(i => i.indicator));
+        const present = new Set(all.map(i => i.indicator));
         for (const indicator of [...this._tracked.keys()]) {
             if (!present.has(indicator))
                 this._untrack(indicator);
         }
-        for (const item of items)
+        for (const item of all)
             this._track(item.indicator);
 
         this._updateButton();
         setKnown(this._settings, mergeKnown(getKnown(this._settings), items.map(i => ({
             key: i.key,
-            name: displayName(i.role, i.indicator.accessible_name),
-            icon: iconString(i.indicator),
+            name: i.app?.name ?? extensionName(i.role) ?? displayName(i.role, i.indicator.accessible_name),
+            icon: iconString(i.indicator) ?? i.app?.icon ?? null,
         }))));
     }
 

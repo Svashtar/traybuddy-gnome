@@ -1,5 +1,5 @@
 import {test, assertEqual, done} from './harness.js';
-import {displayName, forgetKey, itemKey, mergeKnown, moveKey, planLayout, sortKeys, stateOf, uniqueKeys} from '../src/lib/items.js';
+import {displayName, forgetKey, itemKey, mergeKnown, moveKey, planLayout, renameKey, sortKeys, stateOf, uniqueKeys} from '../src/lib/items.js';
 
 test('extension roles are their own key', () => {
     assertEqual(itemKey('lightsbuddy@svashta.com', 'LightsBuddy'), 'lightsbuddy@svashta.com');
@@ -51,8 +51,19 @@ test('known icons are remembered when they go away', () => {
 });
 
 test('forgetting removes the icon everywhere', () => {
-    assertEqual(forgetKey('a', {known: [{key: 'a'}, {key: 'b'}], order: ['b', 'a'], states: {a: 'never', b: 'shown'}}),
-                {known: [{key: 'b'}], order: ['b'], states: {b: 'shown'}});
+    assertEqual(forgetKey('a', {known: [{key: 'a'}, {key: 'b'}], order: ['b', 'a'], states: {a: 'never', b: 'shown'}, names: {a: 'Mine'}}),
+                {known: [{key: 'b'}], order: ['b'], states: {b: 'shown'}, names: {}});
+});
+
+test('renaming a key carries its settings over once', () => {
+    const saved = {known: [{key: 'app:viber', name: 'Viber'}, {key: 'b'}], order: ['b', 'app:viber'],
+                   states: {'app:viber': 'never'}, names: {'app:viber': 'Chat'}, defaultState: 'shown'};
+    const moved = renameKey('app:viber', 'app:com-viber-viber', saved);
+    assertEqual(moved, {known: [{key: 'app:com-viber-viber', name: 'Viber'}, {key: 'b'}], order: ['b', 'app:com-viber-viber'],
+                        states: {'app:com-viber-viber': 'never'}, names: {'app:com-viber-viber': 'Chat'}, defaultState: 'shown'});
+    assertEqual(renameKey('app:viber', 'app:com-viber-viber', moved) === moved, true);
+    assertEqual(renameKey('app:gone', 'app:x', saved) === saved, true);
+    assertEqual(renameKey('b', 'b', saved) === saved, true);
 });
 
 test('moving a key before or after another', () => {

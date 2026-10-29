@@ -14,3 +14,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Choose whether the arrow sits right of the shown icons, next to the system menu (the default), or left of them.
 - Remembers icons of apps that aren't running, so they can be set up in advance or forgotten.
 - About page with release notes, debug info for bug reports and settings backup.
+- App icons are listed under the app's real name and icon from its `.desktop` file, instead of whatever the tray icon calls itself, and keep their settings when that name changes. Extensions use their own name rather than their live status text.
+- The Icons page groups icons into Shown, Collapsible and Hidden; drag an icon into another group to move it there. Icons of apps that aren't running are folded away under Not Running.
+- Rename any icon from its ⋯ menu.

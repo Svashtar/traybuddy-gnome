@@ -39,6 +39,7 @@ You also choose the order, by dragging icons in the settings.
 - **Arrow position:** next to the system menu (after your shown icons) or before them.
 - **Works with app tray icons** (Discord, Steam, Nextcloud…, through the AppIndicator extension) **and with icons from other extensions.** System menus and the screen recording and sharing indicators are never touched.
 - **Remembers icons of apps that aren't running**, so you can set them up before you start the app, or forget them.
+- **Real app names and icons**, read from each app's `.desktop` file, with **Rename** for anything you'd rather call something else.
 - **Works with Dash to Panel.**
 - **Helpful About page.** Release notes, links to the docs, settings export/import and a *Copy Debug Info* button for bug reports.
 

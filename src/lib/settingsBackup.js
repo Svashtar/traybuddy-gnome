@@ -24,11 +24,14 @@ const BACKUP_VERSION = 1;
 const isStringArray = v => Array.isArray(v) && v.every(s => typeof s === 'string');
 const isStateMap = v => v !== null && typeof v === 'object' && !Array.isArray(v) &&
     Object.values(v).every(s => STATES.includes(s));
+const isNameMap = v => v !== null && typeof v === 'object' && !Array.isArray(v) &&
+    Object.values(v).every(s => typeof s === 'string');
 
 // [GSettings key, backup field, type check]
 const FIELDS = [
     ['item-order', 'order', isStringArray],
     ['item-states', 'states', isStateMap],
+    ['item-names', 'names', isNameMap],
     ['default-state', 'defaultState', v => v === 'shown' || v === 'collapsible'],
     ['auto-collapse', 'autoCollapse', v => typeof v === 'boolean'],
     ['collapse-delay', 'collapseDelay', v => Number.isInteger(v) && v >= 1 && v <= 120],

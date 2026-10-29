@@ -28,6 +28,7 @@ const CSS = `
 row.traybuddy-drop-above { box-shadow: inset 0 2px 0 0 var(--accent-bg-color); }
 row.traybuddy-drop-below { box-shadow: inset 0 -2px 0 0 var(--accent-bg-color); }
 row.traybuddy-dragging { opacity: 0.5; }
+row.traybuddy-drop-into { box-shadow: inset 0 0 0 2px var(--accent-bg-color); }
 `;
 
 export default class TrayBuddyPreferences extends ExtensionPreferences {

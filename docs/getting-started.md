@@ -22,7 +22,7 @@ The **Icons** page lists every icon TrayBuddy has seen, with a preview of the ri
 
 ## 3. Choose a state for each icon
 
-Each row has three buttons:
+The **Icons** page lists running icons in three groups, one per state, and each row has three buttons to move it to another one:
 
 | State | What it does |
 |---|---|
@@ -32,13 +32,15 @@ Each row has three buttons:
 
 Changes apply at once, with no need to log out.
 
-Icons that aren't in the top bar right now (for example because their app is closed) are marked **Not running**. You can still set them up, so they land in the right place next time the app starts. The bin button **forgets** such an icon.
+App icons are listed under the app's own name and icon, taken from its `.desktop` file, so you see *LocalSend* rather than `org.localsend.localsend_app`. To call an icon something else, open its **⋯** menu and choose **Rename…**; leave the name empty to go back to the app's name.
+
+Icons that aren't in the top bar right now (for example because their app is closed) are folded away under **Not Running** at the bottom. You can still set them up, so they land in the right place next time the app starts. **⋯ → Forget** removes such an icon.
 
 Under **New Icons**, choose whether icons TrayBuddy hasn't seen before start as *Shown* (the default) or *Collapsible*.
 
 ## 4. Change the order
 
-Drag an icon by its handle (⋮⋮) and drop it above or below another one. The list is in top-bar order, left to right: collapsible icons appear in the pill in this order, shown icons next to the arrow in this order.
+Drag an icon by its handle (⋮⋮) and drop it above or below another one. Each group is in top-bar order, left to right: collapsible icons appear in the pill in this order, shown icons next to the arrow in this order. Dropping an icon into another group also changes its state; an empty group shows a *Drag icons here* row to drop onto.
 
 ## 5. Using the arrow
 

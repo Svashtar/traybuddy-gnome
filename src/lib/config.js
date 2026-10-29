@@ -26,6 +26,11 @@ export function getStates(settings) {
     return settings.get_value('item-states').deepUnpack();
 }
 
+// Names the user gave icons in preferences, by key.
+export function getNames(settings) {
+    return settings.get_value('item-names').deepUnpack();
+}
+
 export function getConfig(settings) {
     return {
         order: settings.get_strv('item-order'),

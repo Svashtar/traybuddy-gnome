@@ -13,10 +13,10 @@ Everything lives in your GNOME settings (dconf) under `/org/gnome/shell/extensio
 | Key | Contents |
 |---|---|
 | `known-items` | The name and icon of every top-bar icon TrayBuddy has seen, and whether it is in the top bar now. This lets the settings window list icons whose app isn't running. |
-| `item-order`, `item-states` | Your order and the state of each icon. |
+| `item-order`, `item-states`, `item-names` | Your order, the state of each icon and any names you gave icons. |
 | Behaviour keys | Auto-collapse, delay, open on hover, background style, state of new icons. |
 
-Icon names come from the app or extension (for app icons, the name the app gives its tray icon). Forget an icon with the bin button on the **Icons** page, or reset everything with **About → Reset All Settings…**.
+Icon names come from the app's `.desktop` file or the extension's metadata, falling back to the name the icon gives itself. To find an app icon's `.desktop` file, the shell asks D-Bus which process owns the icon and reads that process's `/proc/<pid>/cgroup` and `/proc/<pid>/cmdline`; nothing is stored apart from the resulting name and icon. Forget an icon with **⋯ → Forget** on the **Icons** page, or reset everything with **About → Reset All Settings…**.
 
 To remove everything TrayBuddy stored:
 

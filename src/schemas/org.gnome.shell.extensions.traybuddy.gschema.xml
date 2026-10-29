@@ -25,10 +25,15 @@
       <summary>Icon states</summary>
       <description>Icon key → "shown", "collapsible" or "never". Icons not listed use default-state.</description>
     </key>
+    <key name="item-names" type="a{ss}">
+      <default>{}</default>
+      <summary>Icon names</summary>
+      <description>Icon key → name chosen in preferences. Icons not listed use the name in known-items.</description>
+    </key>
     <key name="known-items" type="s">
       <default>'[]'</default>
       <summary>Icons seen so far</summary>
-      <description>JSON written by the shell: [{key, name, icon, present}]. Read by the preferences window.</description>
+      <description>JSON written by the shell: [{key, name, icon, present}], name being the app name where one was found. Read by the preferences window.</description>
     </key>
     <key name="default-state" enum="org.gnome.shell.extensions.traybuddy.item-state">
       <default>'shown'</default>

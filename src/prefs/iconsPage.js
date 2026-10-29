@@ -11,17 +11,21 @@ import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
 
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-import {getConfig, getKnown, setKnown} from '../lib/config.js';
+import {getConfig, getKnown, getNames, setKnown} from '../lib/config.js';
 import {forgetKey, moveKey, sortKeys, stateOf} from '../lib/items.js';
 
 const FALLBACK_ICON = 'application-x-addon-symbolic';
 
+// Themed icons can name an icon this theme lacks (often an app's own tray
+// icon), which GTK draws as a broken image.
 function gicon(item) {
     if (item.icon) {
         try {
-            return Gio.icon_new_for_string(item.icon);
+            const icon = Gio.icon_new_for_string(item.icon);
+            if (!(icon instanceof Gio.ThemedIcon) || Gtk.IconTheme.get_for_display(Gdk.Display.get_default()).has_gicon(icon))
+                return icon;
         } catch {}
     }
     return Gio.ThemedIcon.new(FALLBACK_ICON);
@@ -34,6 +38,8 @@ function stateLabels() {
         never: [_('Hidden'), _('Never shown')],
     };
 }
+
+const SETTINGS_KEYS = ['known-items', 'item-order', 'item-states', 'item-names', 'arrow-position'];
 
 export const IconsPage = GObject.registerClass(
 class TrayBuddyIconsPage extends Adw.PreferencesPage {
@@ -57,12 +63,22 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         previewGroup.add(frame);
         this.add(previewGroup);
 
-        this._group = new Adw.PreferencesGroup({
-            title: _('Top Bar Icons'),
-            description: _('Choose where each icon goes. Drag the handle to reorder: icons appear left to right in this order.'),
-        });
-        this.add(this._group);
-        this._rows = [];
+        // One group per state, so where each icon goes shows at a glance.
+        const labels = stateLabels();
+        this._groups = {};
+        for (const state of ['shown', 'collapsible', 'never']) {
+            const group = new Adw.PreferencesGroup({title: labels[state][0], description: `${labels[state][1]}.`});
+            this._groups[state] = group;
+            this.add(group);
+        }
+        this._groups.shown.description = _('Always in the top bar. Drag the handle to reorder or to move an icon to another group.');
+        this._rows = new Map();
+
+        // Icons whose app isn't running, out of the way until needed.
+        this._absentGroup = new Adw.PreferencesGroup();
+        this._absent = new Adw.ExpanderRow({title: _('Not Running')});
+        this._absentGroup.add(this._absent);
+        this.add(this._absentGroup);
 
         const newGroup = new Adw.PreferencesGroup({title: _('New Icons')});
         const defaultRow = new Adw.ComboRow({
@@ -80,8 +96,7 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         newGroup.add(defaultRow);
         this.add(newGroup);
 
-        const ids = ['known-items', 'item-order', 'item-states', 'arrow-position'].map(key =>
-            settings.connect(`changed::${key}`, () => this.refresh()));
+        const ids = SETTINGS_KEYS.map(key => settings.connect(`changed::${key}`, () => this.refresh()));
         ids.push(settings.connect('changed::default-state', () => {
             syncDefault();
             this.refresh();
@@ -94,15 +109,23 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         this.refresh();
     }
 
-    // Known icons in display order, with their current state.
+    // Known icons in display order, with their current state and the name to show.
     _items() {
         const known = getKnown(this._settings);
         const {order, states, defaultState} = getConfig(this._settings);
+        const names = getNames(this._settings);
         const byKey = new Map(known.map(i => [i.key, i]));
-        return sortKeys(known.map(i => i.key), order).map(key => ({
-            ...byKey.get(key),
-            state: stateOf(key, states, defaultState),
-        }));
+        return sortKeys(known.map(i => i.key), order).map(key => {
+            const item = byKey.get(key);
+            const appName = item.name ?? key;
+            return {
+                ...item,
+                appName,
+                name: names[key] || appName,
+                renamed: Boolean(names[key]),
+                state: stateOf(key, states, defaultState),
+            };
+        });
     }
 
     refresh() {
@@ -112,22 +135,33 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
             return;
         }
         const items = this._items();
-        for (const row of this._rows)
-            this._group.remove(row);
-        this._rows = items.map(item => this._row(item, items));
-        for (const row of this._rows)
-            this._group.add(row);
+        for (const [state, group] of Object.entries(this._groups)) {
+            const rows = items.filter(i => i.present && i.state === state).map(item => this._row(item, items));
+            if (!rows.length)
+                rows.push(this._placeholder(state, items));
+            this._replaceRows(group, rows, row => group.add(row), row => group.remove(row));
+        }
+
+        const absent = items.filter(i => !i.present);
+        this._replaceRows(this._absent, absent.map(item => this._row(item, items)),
+                          row => this._absent.add_row(row), row => this._absent.remove(row));
+        this._absent.subtitle = ngettext('%d icon, kept for when its app starts',
+                                         '%d icons, kept for when their apps start', absent.length).format(absent.length);
+        this._absentGroup.visible = absent.length > 0;
+
         if (!items.length) {
-            const empty = new Adw.ActionRow({
-                title: _('No icons yet'),
-                subtitle: _('Icons appear here once TrayBuddy is enabled and an app or extension adds one to the top bar.'),
-            });
-            this._rows.push(empty);
-            this._group.add(empty);
+            const [empty] = this._rows.get(this._groups.shown);
+            empty.title = _('No icons yet');
+            empty.subtitle = _('Icons appear here once TrayBuddy is enabled and an app or extension adds one to the top bar.');
         }
         this._updatePreview(items);
     }
 
+    _replaceRows(parent, rows, add, remove) {
+        (this._rows.get(parent) ?? []).forEach(remove);
+        rows.forEach(add);
+        this._rows.set(parent, rows);
+    }
     _updatePreview(items) {
         let child;
         while ((child = this._preview.get_first_child()))
@@ -160,13 +194,20 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
 
     _row(item, items) {
         const labels = stateLabels();
+        // One line each, so a long name can't squeeze the state buttons.
         const row = new Adw.ActionRow({
-            title: GLib.markup_escape_text(item.name ?? item.key, -1),
-            subtitle: item.present ? labels[item.state][1] : _('Not running'),
+            title: GLib.markup_escape_text(item.name, -1),
+            title_lines: 1,
+            subtitle_lines: 1,
+            tooltip_text: item.name,
         });
-        // add_prefix() puts each new prefix first, so the handle goes in last.
+        if (item.renamed)
+            row.subtitle = GLib.markup_escape_text(item.appName, -1);
         row.add_prefix(new Gtk.Image({gicon: gicon(item), pixel_size: 24}));
-        row.add_prefix(new Gtk.Image({icon_name: 'list-drag-handle-symbolic', css_classes: ['dim-label']}));
+        if (item.present) {
+            // add_prefix() puts each new prefix first, so the handle goes in last.
+            row.add_prefix(new Gtk.Image({icon_name: 'list-drag-handle-symbolic', css_classes: ['dim-label']}));
+        }
 
         const toggles = new Adw.ToggleGroup({valign: Gtk.Align.CENTER, css_classes: ['round']});
         for (const state of ['shown', 'collapsible', 'never'])
@@ -174,19 +215,51 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         toggles.active_name = item.state;
         toggles.connect('notify::active-name', () => this._setState(item.key, toggles.active_name));
         row.add_suffix(toggles);
+        row.add_suffix(this._menuButton(row, item));
 
-        if (!item.present) {
-            const forget = new Gtk.Button({
-                icon_name: 'user-trash-symbolic',
-                tooltip_text: _('Forget this icon'),
-                valign: Gtk.Align.CENTER,
-                css_classes: ['flat'],
-            });
-            forget.connect('clicked', () => this._forget(item.key));
-            row.add_suffix(forget);
-        }
+        if (item.present)
+            this._addDragAndDrop(row, item, items);
+        return row;
+    }
 
-        this._addDragAndDrop(row, item.key, items);
+    _menuButton(row, item) {
+        const actions = new Gio.SimpleActionGroup();
+        const rename = new Gio.SimpleAction({name: 'rename'});
+        rename.connect('activate', () => this._rename(item));
+        actions.add_action(rename);
+        const forget = new Gio.SimpleAction({name: 'forget'});
+        forget.connect('activate', () => this._forget(item.key));
+        actions.add_action(forget);
+        row.insert_action_group('icon', actions);
+
+        const menu = new Gio.Menu();
+        menu.append(_('Rename…'), 'icon.rename');
+        // A running icon would come straight back.
+        if (!item.present)
+            menu.append(_('Forget'), 'icon.forget');
+        return new Gtk.MenuButton({
+            icon_name: 'view-more-symbolic',
+            tooltip_text: _('More'),
+            menu_model: menu,
+            valign: Gtk.Align.CENTER,
+            css_classes: ['flat'],
+        });
+    }
+
+    // Drop target for a group with no icons in it.
+    _placeholder(state, items) {
+        const row = new Adw.ActionRow({title: _('Drag icons here'), css_classes: ['dim-label']});
+        const target = Gtk.DropTarget.new(GObject.TYPE_STRING, Gdk.DragAction.MOVE);
+        target.connect('enter', () => row.add_css_class('traybuddy-drop-into'));
+        target.connect('leave', () => row.remove_css_class('traybuddy-drop-into'));
+        target.connect('drop', (_t, dragged) => {
+            row.remove_css_class('traybuddy-drop-into');
+            if (!items.some(i => i.key === dragged))
+                return false;
+            this._setState(dragged, state);
+            return true;
+        });
+        row.add_controller(target);
         return row;
     }
 
@@ -198,17 +271,51 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
         this._settings.set_value('item-states', new GLib.Variant('a{ss}', states));
     }
 
+    _setName(key, name) {
+        const names = getNames(this._settings);
+        if (name)
+            names[key] = name;
+        else
+            delete names[key];
+        this._settings.set_value('item-names', new GLib.Variant('a{ss}', names));
+    }
+
+    _rename(item) {
+        const entry = new Gtk.Entry({
+            text: item.renamed ? item.name : '',
+            placeholder_text: item.appName,
+            activates_default: true,
+        });
+        const dialog = new Adw.AlertDialog({
+            heading: _('Rename Icon'),
+            body: _('The name used in these settings. Leave it empty to use the app’s own name.'),
+            extra_child: entry,
+            default_response: 'rename',
+            close_response: 'cancel',
+        });
+        dialog.add_response('cancel', _('Cancel'));
+        dialog.add_response('rename', _('Rename'));
+        dialog.set_response_appearance('rename', Adw.ResponseAppearance.SUGGESTED);
+        dialog.connect('response', (_d, response) => {
+            if (response === 'rename')
+                this._setName(item.key, entry.text.trim());
+        });
+        dialog.present(this._window);
+        entry.grab_focus();
+    }
+
     _forget(key) {
         const {order, states} = getConfig(this._settings);
-        const next = forgetKey(key, {known: getKnown(this._settings), order, states});
+        const next = forgetKey(key, {known: getKnown(this._settings), order, states, names: getNames(this._settings)});
         this._settings.set_strv('item-order', next.order);
         this._settings.set_value('item-states', new GLib.Variant('a{ss}', next.states));
+        this._settings.set_value('item-names', new GLib.Variant('a{ss}', next.names));
         setKnown(this._settings, next.known);
     }
 
-    _addDragAndDrop(row, key, items) {
+    _addDragAndDrop(row, item, items) {
         const source = new Gtk.DragSource({actions: Gdk.DragAction.MOVE});
-        source.connect('prepare', () => Gdk.ContentProvider.new_for_value(key));
+        source.connect('prepare', () => Gdk.ContentProvider.new_for_value(item.key));
         source.connect('drag-begin', () => {
             this._dragging = true;
             const paintable = new Gtk.WidgetPaintable({widget: row});
@@ -243,8 +350,10 @@ class TrayBuddyIconsPage extends Adw.PreferencesPage {
             row.remove_css_class('traybuddy-drop-above');
             row.remove_css_class('traybuddy-drop-below');
             // Save the full order, so icons that aren't running keep their place too.
-            const order = moveKey(items.map(i => i.key), dragged, key, y > row.get_height() / 2);
+            const order = moveKey(items.map(i => i.key), dragged, item.key, y > row.get_height() / 2);
             this._settings.set_strv('item-order', order);
+            // Dropping next to an icon in another group moves it into that group.
+            this._setState(dragged, item.state);
             return true;
         });
         row.add_controller(target);
