@@ -1,12 +1,14 @@
 {
   "known-items": [
-    {"key": "app:discord", "name": "Discord", "icon": "user-available-symbolic", "present": true},
+    {"key": "app:com-discordapp-discord", "name": "Discord", "icon": "user-available-symbolic", "present": true},
     {"key": "app:steam", "name": "Steam", "icon": "input-gaming-symbolic", "present": true},
     {"key": "lightsbuddy@svashta.com", "name": "LightsBuddy", "icon": "display-brightness-symbolic", "present": true},
     {"key": "clipboard-indicator@tudmotu.com", "name": "Clipboard Indicator", "icon": "edit-paste-symbolic", "present": true},
     {"key": "Bluetooth-Battery-Meter@maniacx.github.com", "name": "Bluetooth Battery Meter", "icon": "battery-good-symbolic", "present": true},
-    {"key": "app:nextcloud", "name": "Nextcloud", "icon": "folder-remote-symbolic", "present": false}
+    {"key": "app:org-gnome-software", "name": "Software", "icon": "software-update-available-symbolic", "present": true},
+    {"key": "app:com-nextcloud-desktopclient-nextcloud", "name": "Nextcloud Desktop", "icon": "folder-remote-symbolic", "present": false}
   ],
-  "item-order": ["lightsbuddy@svashta.com", "app:discord", "app:steam", "clipboard-indicator@tudmotu.com", "Bluetooth-Battery-Meter@maniacx.github.com", "app:nextcloud"],
-  "item-states": {"app:discord": "collapsible", "app:steam": "collapsible", "clipboard-indicator@tudmotu.com": "collapsible", "app:nextcloud": "never"}
+  "item-order": ["lightsbuddy@svashta.com", "app:com-discordapp-discord", "app:steam", "clipboard-indicator@tudmotu.com", "Bluetooth-Battery-Meter@maniacx.github.com", "app:org-gnome-software", "app:com-nextcloud-desktopclient-nextcloud"],
+  "item-states": {"app:com-discordapp-discord": "collapsible", "app:steam": "collapsible", "clipboard-indicator@tudmotu.com": "collapsible", "app:org-gnome-software": "never", "app:com-nextcloud-desktopclient-nextcloud": "collapsible"},
+  "item-names": {"Bluetooth-Battery-Meter@maniacx.github.com": "Headphones"}
 }

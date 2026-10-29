@@ -9,7 +9,7 @@
 > **Status: early development.** There is no release yet. Follow the [changelog](CHANGELOG.md) for progress.
 
 <p align="center">
-  <img src="docs/screenshots/prefs-icons.png" alt="Settings, Icons page: a preview of the top bar and each icon set to Shown, Collapsible or Hidden" width="540">
+  <img src="docs/screenshots/prefs-icons.png" alt="Settings, Icons page: a preview of the top bar, icons grouped into Shown, Collapsible and Hidden, a renamed icon, and a folded-out Not Running section" width="540">
 </p>
 
 ## Introduction
