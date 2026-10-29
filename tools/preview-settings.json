@@ -1,0 +1,12 @@
+{
+  "known-items": [
+    {"key": "app:discord", "name": "Discord", "icon": "user-available-symbolic", "present": true},
+    {"key": "app:steam", "name": "Steam", "icon": "input-gaming-symbolic", "present": true},
+    {"key": "lightsbuddy@svashta.com", "name": "LightsBuddy", "icon": "display-brightness-symbolic", "present": true},
+    {"key": "clipboard-indicator@tudmotu.com", "name": "Clipboard Indicator", "icon": "edit-paste-symbolic", "present": true},
+    {"key": "Bluetooth-Battery-Meter@maniacx.github.com", "name": "Bluetooth Battery Meter", "icon": "battery-good-symbolic", "present": true},
+    {"key": "app:nextcloud", "name": "Nextcloud", "icon": "folder-remote-symbolic", "present": false}
+  ],
+  "item-order": ["lightsbuddy@svashta.com", "app:discord", "app:steam", "clipboard-indicator@tudmotu.com", "Bluetooth-Battery-Meter@maniacx.github.com", "app:nextcloud"],
+  "item-states": {"app:discord": "collapsible", "app:steam": "collapsible", "clipboard-indicator@tudmotu.com": "collapsible", "app:nextcloud": "never"}
+}

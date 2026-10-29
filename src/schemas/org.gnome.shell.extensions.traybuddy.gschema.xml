@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="traybuddy">
+  <enum id="org.gnome.shell.extensions.traybuddy.item-state">
+    <value nick="shown" value="0"/>
+    <value nick="collapsible" value="1"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.traybuddy.pill-style">
+    <value nick="none" value="0"/>
+    <value nick="subtle" value="1"/>
+    <value nick="accent" value="2"/>
+  </enum>
+
+  <schema id="org.gnome.shell.extensions.traybuddy" path="/org/gnome/shell/extensions/traybuddy/">
+    <key name="item-order" type="as">
+      <default>[]</default>
+      <summary>Icon order</summary>
+      <description>Icon keys from left to right. Icons not listed keep their place after the listed ones.</description>
+    </key>
+    <key name="item-states" type="a{ss}">
+      <default>{}</default>
+      <summary>Icon states</summary>
+      <description>Icon key → "shown", "collapsible" or "never". Icons not listed use default-state.</description>
+    </key>
+    <key name="known-items" type="s">
+      <default>'[]'</default>
+      <summary>Icons seen so far</summary>
+      <description>JSON written by the shell: [{key, name, icon, present}]. Read by the preferences window.</description>
+    </key>
+    <key name="default-state" enum="org.gnome.shell.extensions.traybuddy.item-state">
+      <default>'shown'</default>
+      <summary>State of new icons</summary>
+    </key>
+    <key name="auto-collapse" type="b">
+      <default>true</default>
+      <summary>Collapse automatically</summary>
+    </key>
+    <key name="collapse-delay" type="u">
+      <range min="1" max="120"/>
+      <default>5</default>
+      <summary>Seconds without use before collapsing</summary>
+    </key>
+    <key name="open-on-hover" type="b">
+      <default>false</default>
+      <summary>Open when the pointer rests on the arrow</summary>
+    </key>
+    <key name="pill-style" enum="org.gnome.shell.extensions.traybuddy.pill-style">
+      <default>'subtle'</default>
+      <summary>Background behind revealed icons</summary>
+    </key>
+  </schema>
+</schemalist>

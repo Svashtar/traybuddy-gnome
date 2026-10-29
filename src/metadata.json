@@ -1,0 +1,12 @@
+{
+  "uuid": "traybuddy@svashta.com",
+  "name": "TrayBuddy",
+  "description": "Tidy up the top bar: choose which indicator icons are always shown, which tuck away behind an arrow, and which are never shown.\n\nClick the arrow to slide the tucked-away icons out. They collapse again after a few seconds without use. Drag to reorder icons in the settings.\n\nWorks with application tray icons (via the AppIndicator extension) and icons added by other extensions. Clipboard: Settings → About → Copy Debug Info copies a report to the clipboard when you click it.",
+  "shell-version": [
+    "51"
+  ],
+  "url": "https://github.com/Svashtar/traybuddy-gnome",
+  "settings-schema": "org.gnome.shell.extensions.traybuddy",
+  "gettext-domain": "traybuddy",
+  "version-name": "0.1.0"
+}

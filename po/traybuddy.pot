@@ -1,0 +1,338 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the TrayBuddy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TrayBuddy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-29 11:20+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/ui/trayButton.js:33 src/prefs/aboutPage.js:81
+msgid "TrayBuddy"
+msgstr ""
+
+#: src/ui/trayButton.js:75
+msgid "Keep Open"
+msgstr ""
+
+#: src/ui/trayButton.js:79 src/prefs/aboutPage.js:127
+msgid "Settings"
+msgstr ""
+
+#: src/ui/trayButton.js:96
+msgid "Hide tucked-away icons"
+msgstr ""
+
+#: src/ui/trayButton.js:96
+msgid "Show tucked-away icons"
+msgstr ""
+
+#: src/prefs/iconsPage.js:32 src/prefs/iconsPage.js:71
+msgid "Shown"
+msgstr ""
+
+#: src/prefs/iconsPage.js:32
+msgid "Always in the top bar"
+msgstr ""
+
+#: src/prefs/iconsPage.js:33 src/prefs/iconsPage.js:71
+msgid "Collapsible"
+msgstr ""
+
+#: src/prefs/iconsPage.js:33
+msgid "Behind the arrow until you open it"
+msgstr ""
+
+#: src/prefs/iconsPage.js:34
+msgid "Hidden"
+msgstr ""
+
+#: src/prefs/iconsPage.js:34
+msgid "Never shown"
+msgstr ""
+
+#: src/prefs/iconsPage.js:41
+msgid "Icons"
+msgstr ""
+
+#: src/prefs/iconsPage.js:46
+msgid "Preview"
+msgstr ""
+
+#: src/prefs/iconsPage.js:47
+msgid "How the right side of the top bar looks with the arrow open."
+msgstr ""
+
+#: src/prefs/iconsPage.js:61
+msgid "Top Bar Icons"
+msgstr ""
+
+#: src/prefs/iconsPage.js:62
+msgid ""
+"Choose where each icon goes. Drag the handle to reorder: icons appear left "
+"to right in this order."
+msgstr ""
+
+#: src/prefs/iconsPage.js:67
+msgid "New Icons"
+msgstr ""
+
+#: src/prefs/iconsPage.js:69
+msgid "New Icons Are"
+msgstr ""
+
+#: src/prefs/iconsPage.js:70
+msgid "For icons TrayBuddy hasn’t seen before"
+msgstr ""
+
+#: src/prefs/iconsPage.js:122
+msgid "No icons yet"
+msgstr ""
+
+#: src/prefs/iconsPage.js:123
+msgid ""
+"Icons appear here once TrayBuddy is enabled and an app or extension adds one "
+"to the top bar."
+msgstr ""
+
+#: src/prefs/iconsPage.js:153
+msgid "System menu"
+msgstr ""
+
+#: src/prefs/iconsPage.js:161
+msgid "Not running"
+msgstr ""
+
+#: src/prefs/iconsPage.js:177
+msgid "Forget this icon"
+msgstr ""
+
+#: src/prefs/generalPage.js:19
+msgid "Behaviour"
+msgstr ""
+
+#: src/prefs/generalPage.js:22
+msgid "Collapsing"
+msgstr ""
+
+#: src/prefs/generalPage.js:23
+msgid ""
+"Collapsible icons tuck away again once you stop using them. The timer pauses "
+"while the pointer is on them or one of their menus is open."
+msgstr ""
+
+#: src/prefs/generalPage.js:25
+msgid "Collapse Automatically"
+msgstr ""
+
+#: src/prefs/generalPage.js:28
+msgid "Collapse After"
+msgstr ""
+
+#: src/prefs/generalPage.js:29
+msgid "Seconds without use"
+msgstr ""
+
+#: src/prefs/generalPage.js:39
+msgid "Opening"
+msgstr ""
+
+#: src/prefs/generalPage.js:40
+msgid ""
+"Click the arrow to open or close. Right-click it for Keep Open and Settings."
+msgstr ""
+
+#: src/prefs/generalPage.js:43
+msgid "Open on Hover"
+msgstr ""
+
+#: src/prefs/generalPage.js:44
+msgid "Open when the pointer rests on the arrow"
+msgstr ""
+
+#: src/prefs/generalPage.js:50
+msgid "Appearance"
+msgstr ""
+
+#: src/prefs/generalPage.js:52
+msgid "Background"
+msgstr ""
+
+#: src/prefs/generalPage.js:53
+msgid "Behind the revealed icons"
+msgstr ""
+
+#: src/prefs/generalPage.js:54
+msgid "None"
+msgstr ""
+
+#: src/prefs/generalPage.js:54
+msgid "Subtle"
+msgstr ""
+
+#: src/prefs/generalPage.js:54
+msgid "Accent Colour"
+msgstr ""
+
+#: src/prefs/aboutPage.js:36
+msgid "The file is not valid JSON."
+msgstr ""
+
+#: src/prefs/aboutPage.js:37
+msgid "The file is not a TrayBuddy settings backup."
+msgstr ""
+
+#: src/prefs/aboutPage.js:38
+msgid "The backup was made by a newer version of TrayBuddy."
+msgstr ""
+
+#: src/prefs/aboutPage.js:39
+#, javascript-format
+msgid "The backup has an invalid “%s” value."
+msgstr ""
+
+#: src/prefs/aboutPage.js:69
+msgid "About"
+msgstr ""
+
+#: src/prefs/aboutPage.js:83
+msgid "Choose which top-bar icons stay in view and tuck the rest away"
+msgstr ""
+
+#: src/prefs/aboutPage.js:92
+msgid "Version"
+msgstr ""
+
+#: src/prefs/aboutPage.js:94
+msgid "Git commit"
+msgstr ""
+
+#: src/prefs/aboutPage.js:96 src/prefs/aboutPage.js:219
+msgid "What’s New"
+msgstr ""
+
+#: src/prefs/aboutPage.js:102
+msgid "Help"
+msgstr ""
+
+#: src/prefs/aboutPage.js:103
+msgid "Website"
+msgstr ""
+
+#: src/prefs/aboutPage.js:103
+msgid "Features, screenshots and installation"
+msgstr ""
+
+#: src/prefs/aboutPage.js:104
+msgid "Documentation"
+msgstr ""
+
+#: src/prefs/aboutPage.js:104
+msgid "Setup, icon states and troubleshooting"
+msgstr ""
+
+#: src/prefs/aboutPage.js:105
+msgid "Report an Issue"
+msgstr ""
+
+#: src/prefs/aboutPage.js:105
+msgid "Include the debug info below"
+msgstr ""
+
+#: src/prefs/aboutPage.js:108
+msgid "Copy Debug Info"
+msgstr ""
+
+#: src/prefs/aboutPage.js:109
+msgid "Versions, settings and icon counts. Never the names of your apps."
+msgstr ""
+
+#: src/prefs/aboutPage.js:117
+msgid "Debug info copied"
+msgstr ""
+
+#: src/prefs/aboutPage.js:120
+msgid "Could not collect debug info"
+msgstr ""
+
+#: src/prefs/aboutPage.js:128
+msgid "Backups include icon states, order and behaviour settings."
+msgstr ""
+
+#: src/prefs/aboutPage.js:130
+msgid "Export Settings…"
+msgstr ""
+
+#: src/prefs/aboutPage.js:132
+msgid "Import Settings…"
+msgstr ""
+
+#: src/prefs/aboutPage.js:134
+msgid "Reset All Settings…"
+msgstr ""
+
+#: src/prefs/aboutPage.js:142
+msgid "License"
+msgstr ""
+
+#: src/prefs/aboutPage.js:142
+msgid "GNU General Public License, version 2 or later"
+msgstr ""
+
+#: src/prefs/aboutPage.js:144
+msgid "Inspired by Lilypad"
+msgstr ""
+
+#: src/prefs/aboutPage.js:144
+msgid "Topbar manager by Andrew Shen"
+msgstr ""
+
+#: src/prefs/aboutPage.js:181
+msgid "Release notes are not available."
+msgstr ""
+
+#: src/prefs/aboutPage.js:185
+msgid "Not released yet"
+msgstr ""
+
+#: src/prefs/aboutPage.js:235
+msgid "Settings exported"
+msgstr ""
+
+#: src/prefs/aboutPage.js:239
+msgid "JSON files"
+msgstr ""
+
+#: src/prefs/aboutPage.js:254
+msgid "Settings imported"
+msgstr ""
+
+#: src/prefs/aboutPage.js:259
+msgid "Reset All Settings?"
+msgstr ""
+
+#: src/prefs/aboutPage.js:260
+msgid "Icon states, order and behaviour settings go back to their defaults."
+msgstr ""
+
+#: src/prefs/aboutPage.js:262
+msgid "Cancel"
+msgstr ""
+
+#: src/prefs/aboutPage.js:263
+msgid "Reset"
+msgstr ""
+
+#: src/prefs/aboutPage.js:272
+msgid "Settings reset"
+msgstr ""

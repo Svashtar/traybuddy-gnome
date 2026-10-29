@@ -1,0 +1,34 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+/* SPDX-FileCopyrightText: 2026 Mitja Cebokli */
+/* Generated with AI for personal use. */
+/* Do NOT upload to extensions.gnome.org (EGO) unless you understand JavaScript */
+/* and can maintain this code. */
+
+/* Everything is scoped to traybuddy-* classes: the shell's own buttons and
+   the icons of other extensions keep their theme styling. St has no opacity
+   or color-mix(); colours use st-transparentize(). */
+
+.traybuddy-drawer {
+  border-radius: 999px;
+  margin: 3px 0;
+  padding: 0 3px;
+}
+
+.traybuddy-drawer.traybuddy-pill-subtle {
+  background-color: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+}
+
+.traybuddy-drawer.traybuddy-pill-accent {
+  background-color: st-transparentize(-st-accent-color, 0.72);
+  box-shadow: inset 0 0 0 1px st-transparentize(-st-accent-color, 0.45);
+}
+
+#panel .traybuddy-button {
+  -natural-hpadding: 6px;
+  -minimum-hpadding: 4px;
+}
+
+#panel .traybuddy-button .system-status-icon.traybuddy-chevron {
+  icon-size: 14px;
+}
