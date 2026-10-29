@@ -53,7 +53,7 @@ The goal:
 4. ✅ Prefs: Icons (preview, toggles, drag and drop, forget), Behaviour, About
 5. ⏳ Test on the real desktop after a re-login: AppIndicator icons, LightsBuddy, Dash to Panel, Catppuccin theme, disable/enable cycles leave no traces
 6. ⏳ Screenshots of the top bar (collapsed, open) for README
-7. ⏳ Create GitHub repo `Svashtar/traybuddy-gnome`, first release, EGO submission (after the maintainer's review and AI-notice removal)
+7. GitHub repo `Svashtar/traybuddy-gnome` created; first release, EGO submission (after the maintainer's review and AI-notice removal)
 
 ## Later
 - Keyboard shortcut to toggle the drawer (`Main.wm.addKeybinding`), with a shortcut editor in prefs.

@@ -3,7 +3,7 @@
 GNOME Shell 51+ extension (`traybuddy@svashta.com`) that tidies the right side of the top bar:
 each indicator icon is **Shown**, **Collapsible** (behind an animated arrow) or **Hidden**, in a
 user-chosen order. Plain ESM GJS, no build step, no npm dependencies.
-Public repo (to be created): `Svashtar/traybuddy-gnome`.
+Public repo: `Svashtar/traybuddy-gnome`.
 
 - Design and roadmap: [PLAN.md](PLAN.md)
 - Module map, layout model, lifecycle: [docs/architecture.md](docs/architecture.md)
