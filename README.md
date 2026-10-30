@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/icons/traybuddy.svg" alt="TrayBuddy logo" width="96">
+</p>
+
 # TrayBuddy
 
 **Tidy up the GNOME top bar: keep the icons you need in view and tuck the rest behind an arrow that slides them out when you want them.**
@@ -137,3 +141,15 @@ TrayBuddy is in English only. Every string is ready for gettext ([`po/traybuddy.
 ## License
 
 TrayBuddy is free software, released under the [GNU General Public License, version 2 or later](LICENSE) (GPL-2.0-or-later).
+
+---
+
+<p align="center">
+  <a href="https://svashta.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/svashta-wordmark-light.svg">
+      <img src="docs/assets/svashta-wordmark-dark.svg" alt="Svashta" height="24">
+    </picture>
+  </a>
+  <br><sub>Made by <a href="https://svashta.com">Svashta</a></sub>
+</p>

@@ -1,3 +1,5 @@
+<img src="../src/icons/traybuddy.svg" alt="" width="48" align="right">
+
 # Getting started
 
 This guide walks you through setting up TrayBuddy after installing it. For installation, see the [README](../README.md#installation).
